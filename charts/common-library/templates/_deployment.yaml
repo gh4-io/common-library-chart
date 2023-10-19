@@ -2,16 +2,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "radarr.fullname" . }}
+  name: {{ include "common.fullname" . }}
   labels:
-    {{- include "radarr.labels" . | nindent 4 }}
+    {{- include "common.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "radarr.selectorLabels" . | nindent 6 }}
+      {{- include "common.selectorLabels" . | nindent 6 }}
   {{- with .Values.strategy }}
   strategy:
     {{- toYaml . | nindent 4 }}
@@ -23,13 +23,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "radarr.selectorLabels" . | nindent 8 }}
+        {{- include "common.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "radarr.serviceAccountName" . }}
+      serviceAccountName: {{ include "common.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -68,7 +68,7 @@ spec:
           {{- toYaml .Values.resources | nindent 12 }}
         {{- if or .Values.persistence.enabled .Values.media.enabled }}
         volumeMounts:
-          {{- include "radarr.primaryConfigMap" . | nindent 10 }}
+          {{- include "common.primaryConfigMap" . | nindent 10 }}
           {{- if .Values.persistence.enabled }}
           - mountPath: {{ .Values.persistence.path | default "/config" }}
             name: config
@@ -101,7 +101,7 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-          {{- include "radarr.initConfigMap" . | nindent 10 }}
+          {{- include "common.initConfigMap" . | nindent 10 }}
           - mountPath: /config
             name: config
       {{- end }}
@@ -110,7 +110,7 @@ spec:
         {{- if .Values.persistence.enabled }}
         - name: config
           persistentVolumeClaim:
-            claimName: {{ default ( include "radarr.pvcName" . ) .Values.persistence.existingClaim }}
+            claimName: {{ default ( include "common.pvcName" . ) .Values.persistence.existingClaim }}
         {{- end }}
         {{- if .Values.media.enabled }}
         - name: media
@@ -118,7 +118,7 @@ spec:
             claimName: {{ .Values.media.existingClaim }}
         {{- end }}
         {{- end }}
-        {{- include "radarr.volumeConfigMap" . | nindent 8 }}
+        {{- include "common.volumeConfigMap" . | nindent 8 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -134,5 +134,5 @@ spec:
 {{- end -}}
 
 {{- define "common.deployment" -}}
-{{- include "common.util.metge" ( append . "common.deployment.tpl" ) -}}
+{{- include "common.util.merge" ( append . "common.deployment.tpl" ) -}}
 {{- end -}}
