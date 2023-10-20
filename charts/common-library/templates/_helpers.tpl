@@ -80,6 +80,16 @@ Create the name of the service account to use
 {{- end }}
 
 {{/*
+##
+##    Below this line is for config map entries.
+## 
+##
+##
+*/}}
+
+
+
+{{/*
 Translate .Value.configmap to deployment volumes.
 */}}
 {{- define "common.volumeConfigMap" -}}

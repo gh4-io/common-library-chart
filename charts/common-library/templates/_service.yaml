@@ -1,4 +1,4 @@
-{{- define "common.service" }}
+{{- define "common.service.tpl" }}
 {{- if ( .Values.service.enabled | default false ) }}
 apiVersion: v1
 kind: Service
@@ -18,3 +18,7 @@ spec:
     {{- include "common.selectorLabels" . | nindent 4 }}
 {{- end -}}
 {{- end }}
+
+{{- define "common.service" -}}
+{{- include "common.util.merge" (append . "common.service.tpl") -}}
+{{- end -}}

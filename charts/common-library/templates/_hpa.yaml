@@ -1,4 +1,4 @@
-{{- define "common.hpa" }}
+{{- define "common.hpa.tpl" }}
 {{- if .Values.autoscaling.enabled }}
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
@@ -27,4 +27,8 @@ spec:
         targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage | default "15%" }}
     {{- end }}
 {{- end }}
+{{- end -}}
+
+{{- define "common.hpa" -}}
+{{- include "common.util.merge" (append . "common.hpa.tpl") -}}
 {{- end -}}

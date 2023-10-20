@@ -1,4 +1,4 @@
-{{- define "common.pvc" }}
+{{- define "common.pvc.tpl" }}
 {{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -28,3 +28,7 @@ spec:
   volumeName: {{ include "common.pvName" . }}
 {{- end }}
 {{- end }}
+
+{{- define "common.pvc" -}}
+{{- include "common.util.merge" (append . "common.pvc.tpl") -}}
+{{- end -}}

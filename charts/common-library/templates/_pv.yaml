@@ -1,3 +1,4 @@
+{{- define "common.pv.tpl" -}}
 {{- $mypv := (lookup "v1" "pv" ".Release.Namespace" ( include "common.pvName" .) ) }}
 {{- if not $mypv }}
 {{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
@@ -34,4 +35,9 @@ spec:
   {{- end }}
 {{- end }}
 {{- end }}
+{{- end -}}
+
+{{- define "common.pv" -}}
+{{- include "common.util.merge" (append . "common.pv.tpl") -}}
+{{- end -}}
   

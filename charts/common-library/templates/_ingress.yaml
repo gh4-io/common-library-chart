@@ -1,4 +1,4 @@
-{{- define "common.pv" }}
+{{- define "common.ingress.tpl" }}
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "common.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
@@ -61,3 +61,7 @@ spec:
     {{- end }}
 {{- end }}
 {{- end }}
+
+{{- define "common.ingress" -}}
+{{- include "common.util.merge" (append . "common.ingress.tpl") -}}
+{{- end -}}
