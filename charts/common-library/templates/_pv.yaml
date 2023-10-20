@@ -1,0 +1,37 @@
+{{- $mypv := (lookup "v1" "pv" ".Release.Namespace" ( include "common.pvName" .) ) }}
+{{- if not $mypv }}
+{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "common.pvName" . }}
+  namespace: {{ .Release.Namespace }}
+  {{- with .Values.persistence.annotations  }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    {{- include "common.labels" . | nindent 4 }}
+    app.kubernetes.io/component: pv
+spec:
+  storageClassName: {{ .Values.persistence.storageClassName | default "microk8s-hostpath" }}
+  capacity:
+    storage: {{ .Values.persistence.size }}
+  volumeMode: {{ .Values.persistence.volumeMode | default "Filesystem" }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: {{ .Values.persistence.reclaimPolicy | default "Retain" }}
+  hostPath: 
+    path: {{ printf "%s%s" ( include "common.volumePath" . ) ( include "common.volumeName" . ) | quote }}
+    type: {{ .Values.persistence.volumeType | default "DirectoryOrCreate" }}
+  {{- if .Values.affinity.nodeAffinity }}
+  nodeAffinity:
+    required:
+    {{- with .Values.affinity.nodeAffinity.requiredDuringSchedulingIgnoredDuringExecution.nodeSelectorTerms }}
+      nodeSelectorTerms:
+      {{- toYaml . | nindent 8 }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
+  
