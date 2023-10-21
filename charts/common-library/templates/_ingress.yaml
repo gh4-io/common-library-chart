@@ -1,5 +1,4 @@
 {{- define "common.ingress.tpl" }}
-{{- if .Values.ingress.enabled -}}
 {{- $fullName := include "common.fullname" . -}}
 {{- $svcPort := .Values.service.port -}}
 {{- if and .Values.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
@@ -59,8 +58,7 @@ spec:
               {{- end }}
           {{- end }}
     {{- end }}
-{{- end }}
-{{- end }}
+{{- end -}}
 
 {{- define "common.ingress" -}}
 {{- include "common.util.merge" (append . "common.ingress.tpl") -}}

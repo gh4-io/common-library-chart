@@ -1,7 +1,6 @@
 {{- define "common.pv.tpl" -}}
 {{- $mypv := (lookup "v1" "pv" ".Release.Namespace" ( include "common.pvName" .) ) }}
 {{- if not $mypv }}
-{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -33,7 +32,6 @@ spec:
       {{- toYaml . | nindent 8 }}
     {{- end }}
   {{- end }}
-{{- end }}
 {{- end }}
 {{- end -}}
 
