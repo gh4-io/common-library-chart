@@ -2,21 +2,21 @@ apiVersion: v1
 entries:
   common:
   - apiVersion: v2
-    created: "2023-10-20T18:04:52.2804192-04:00"
+    created: "2023-10-20T22:12:36.3280887-04:00"
     description: Common chart library.
-    digest: 61d17133a645eec10ecba8af4abc6adf3e7fcb9dbedcb5d6ec68a08f3d807b02
+    digest: f64893557e3491112c670d81da571386dfa1818d3df9633072fe9081fa77f913
     name: common
     type: library
     urls:
-    - https://github.com/gh4-io/common-library-chart/releases/download/v0.1.0/common-0.1.0.tgz
-    version: 0.1.0
-  - apiVersion: v2
-    created: "2023-10-20T20:05:52.2804192-04:00"
-    description: Common chart library.
-    digest: 61d17133a645eec10ecba8af4abc6adf3e7fcb9dbedcb5d6ec68a08f3d807b02
-    name: common
-    type: library
-    urls:
-    - https://github.com/gh4-io/common-library-chart/releases/download/v0.1.1/common-0.1.1.tgz
+    - common-0.1.1.tgz
     version: 0.1.1
-generated: "2023-10-20T20:04:52.2793422-04:00"
+  - apiVersion: v2
+    created: "2023-10-20T22:12:36.3174289-04:00"
+    description: Common chart library.
+    digest: 61d17133a645eec10ecba8af4abc6adf3e7fcb9dbedcb5d6ec68a08f3d807b02
+    name: common
+    type: library
+    urls:
+    - common-0.1.0.tgz
+    version: 0.1.0
+generated: "2023-10-20T22:12:36.3174289-04:00"
